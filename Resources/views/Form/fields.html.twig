@@ -6,6 +6,7 @@
         <option value="{{ value }} selected="selected">{{ value }}</option>
       {% endif %}
     </select>
+    {# And seriously, why not? #}
     <script type="text/javascript">
       (function () {
         var id = '#{{ id }}';
@@ -38,10 +39,12 @@
             },
             cache: true
           },
-          escapeMarkup: function (markup) { return markup; }, // We already did that in controller
+          // We already did that in the PHP controller
+          escapeMarkup: function (markup) { return markup; },
           minimumInputLength: 1,
-          // templateResult: formatRepo, // omitted for brevity, see the source of this page
-          // templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+          // No need for this, rendered in PHP side
+          // templateResult: function () {},
+          templateSelection: function (data) { return data.title; }
         });
       }());
     </script>
