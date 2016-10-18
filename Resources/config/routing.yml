@@ -1,0 +1,6 @@
+
+autocomplete:
+    path: autocomplete/{type}/{string}
+    defaults:
+        _controller: AutocompleteBundle:Autocomplete:find
+        string: ~

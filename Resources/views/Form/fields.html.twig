@@ -1,0 +1,9 @@
+{% block text_autocomplete_widget -%}
+  {% spaceless %}
+    <div class="form-autocomplete">
+      {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
+      <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+      <input type="hidden" id="{{ id }}-autocomplete" class="autocomplete" value="{{ route }}"/>
+    </div>
+  {% endspaceless %}
+{%- endblock text_autocomplete_widget %}
