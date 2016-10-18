@@ -29,10 +29,9 @@ class AutocompleteController extends Controller
         $items = [];
         foreach ($source->find($query, $limit, $offset) as $value) {
             $items[] = [
-                'id' => $source->getItemId($value),
+                'id'    => $source->getItemId($value),
                 'title' => $source->getItemLabel($value),
-                'text' => $source->getItemLabel($value),
-                'disabled' => false,
+                'text'  => $source->renderItemMarkup($value),
             ];
         }
 
