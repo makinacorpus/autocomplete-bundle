@@ -9,8 +9,11 @@ and provide minimal functionnalities as of today.
 composer require makinacorpus/autocomplete-bundle
 ```
 
-For it work, the JavaScript file to use may be find in the Drupal module, that
-you should copy manually in your local assets: ``misc/autocomplete.js``
+**This autocomplete widget works with the [select2](https://select2.github.io)**
+**library, it is your responsability to ensure the javascript is correctly loaded**
+**for it to work.**
+
+**You also need jQuery installed** (sorry, this might change later).
 
 Register the routing.yml file in your ``app/routing.yml`` file:
 

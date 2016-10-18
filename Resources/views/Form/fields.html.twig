@@ -1,9 +1,49 @@
 {% block text_autocomplete_widget -%}
   {% spaceless %}
-    <div class="form-autocomplete">
-      {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
-      <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-      <input type="hidden" id="{{ id }}-autocomplete" class="autocomplete" value="{{ route }}"/>
-    </div>
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
+    <select {{ block('widget_attributes') }}>
+      {% if value %}
+        <option value="{{ value }} selected="selected">{{ value }}</option>
+      {% endif %}
+    </select>
+    <script type="text/javascript">
+      (function () {
+        var id = '#{{ id }}';
+        var limit = 30;
+        jQuery(id).select2({
+          ajax: {
+            url: '{{ route }}',
+            allowClear: true,
+            dataType: 'json',
+            delay: 500,
+            data: function (params) {
+              return {
+                query: params.term, // search term
+                page: params.page,
+                limit: 30
+              };
+            },
+            processResults: function (data, params) {
+              // parse the results into the format expected by Select2
+              // since we are using custom formatting functions we do not need to
+              // alter the remote JSON data, except to indicate that infinite
+              // scrolling can be used
+              params.page = params.page || 1;
+              return {
+                results: data.items,
+                pagination: {
+                  more: (params.page * 30) < data.total
+                }
+              };
+            },
+            cache: true
+          },
+          // escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+          minimumInputLength: 1,
+          // templateResult: formatRepo, // omitted for brevity, see the source of this page
+          // templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+        });
+      }());
+    </script>
   {% endspaceless %}
 {%- endblock text_autocomplete_widget %}

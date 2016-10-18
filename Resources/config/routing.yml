@@ -1,6 +1,11 @@
 
-autocomplete:
-    path: autocomplete/{type}/{string}
+mc_autocomplete:
+    path: autocomplete/{type}
     defaults:
         _controller: AutocompleteBundle:Autocomplete:find
-        string: ~
+        query: ~
+        limit: 30
+        page: 1
+    requirements:
+        limit: \d+
+        page: \d+
