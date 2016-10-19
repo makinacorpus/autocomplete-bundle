@@ -3,7 +3,7 @@
     {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
     <select {{ block('widget_attributes') }}>
       {% if value %}
-        <option value="{{ value }} selected="selected">{{ value }}</option>
+        <option value="{{ value }}" selected="selected">{{ value }}</option>
       {% endif %}
     </select>
     {# And seriously, why not? #}
