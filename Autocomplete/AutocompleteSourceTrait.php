@@ -32,6 +32,14 @@ trait AutocompleteSourceTrait /* implemetns AutocompleteSourceInterface */
     /**
      * {@inheritdoc}
      */
+    public function getItemExtraData($value)
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function renderItemMarkup($value)
     {
         return $this->getItemLabel($value);

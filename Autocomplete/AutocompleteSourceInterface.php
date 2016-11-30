@@ -97,6 +97,22 @@ interface AutocompleteSourceInterface
     public function getItemLabel($value);
 
     /**
+     * Get item additional data
+     *
+     * You may throw exception in case of any error, don't care
+     * about the exception type, the widget will handle as much as it can and
+     * provide meaningful exceptions for the fom validation process.
+     *
+     * @param mixed $value
+     *   An object loaded either by the find(), the findAllById() or the
+     *   findById() method of this very same object
+     *
+     * @return []
+     *   An array of data related to the object
+     */
+    public function getItemExtraData($value);
+
+    /**
      * Render item markup to display within the autocomplete widget, it might
      * advanced HTML rendering
      *

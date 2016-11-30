@@ -32,7 +32,7 @@ class AutocompleteController extends Controller
                 'id'    => $source->getItemId($value),
                 'title' => $source->getItemLabel($value),
                 'text'  => $source->renderItemMarkup($value),
-            ];
+            ] + $source->getItemExtraData($value);
         }
 
         return new JsonResponse([
