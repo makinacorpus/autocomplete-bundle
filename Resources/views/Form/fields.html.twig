@@ -1,17 +1,18 @@
 {% block text_autocomplete_widget -%}
+  {% set real_id = id ~ '-' ~ random() %}
   {% spaceless %}
     {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
-    <select {{ block('widget_attributes') }}>
+    <select {{ block('widget_attributes') }} data-ac-id="{{ real_id }}">
       {% if value %}
         <option value="{{ value }}" selected="selected">{{ value }}</option>
       {% endif %}
     </select>
     {# And seriously, why not? #}
     <script type="text/javascript">
-      (function () {
-        var id = '#{{ id }}';
+      (function ($) {
+        var id = '[data-ac-id="{{ real_id }}"]';
         var limit = 30;
-        jQuery(id).select2({
+        $(id).select2({
           ajax: {
             url: '{{ route }}',
             allowClear: true,
@@ -46,7 +47,7 @@
           // templateResult: function () {},
           templateSelection: function (data) { return data.title; }
         });
-      }());
+      }(jQuery));
     </script>
   {% endspaceless %}
 {%- endblock text_autocomplete_widget %}
