@@ -3,8 +3,8 @@
   {% spaceless %}
     {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
     <select {{ block('widget_attributes') }} data-ac-id="{{ real_id }}">
-      {% if value %}
-        <option value="{{ value }}" selected="selected">{{ value }}</option>
+      {% if value_id %}
+        <option value="{{ value_id }}" selected="selected">{{ value_label }}</option>
       {% endif %}
     </select>
     {# And seriously, why not? #}
@@ -45,7 +45,7 @@
           minimumInputLength: 1,
           // No need for this, rendered in PHP side
           // templateResult: function () {},
-          templateSelection: function (data) { return data.title; }
+          templateSelection: function (data) { return data.title || data.text;}
         });
       }(jQuery));
     </script>

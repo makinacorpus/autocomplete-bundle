@@ -62,6 +62,11 @@ class TextAutocompleteType extends AbstractType
 
         $view->vars['route'] = $this->router->generate('mc_autocomplete', ['type' => $this->sourceRegistry->toString($source)]);
         $view->vars['multiple'] = (bool)$options['multiple'];
+        $value = $form->getData();
+        if ($value) {
+            $view->vars['value_id'] = $source->getItemId($value);
+            $view->vars['value_label'] = $source->getItemLabel($value);
+        }
     }
 
     /**
