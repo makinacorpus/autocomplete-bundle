@@ -32,22 +32,7 @@ interface AutocompleteSourceInterface
      * @return mixed[]
      *   Array of business class instances this source handles
      */
-    public function find($string, $limit = 30, $offset = 0);
-
-    /**
-     * Find a single item using its identifier
-     *
-     * You may throw exception if item could not be found, don't care
-     * about the exception type, the widget will handle as much as it can and
-     * provide meaningful exceptions for the fom validation process.
-     *
-     * @param int|string $id
-     *   Object identifier
-     *
-     * @return mixed
-     *   Single business class instance this source handles
-     */
-    public function findById($id);
+    public function autocomplete($string, $limit = 30, $offset = 0);
 
     /**
      * Find all items using their identifiers
@@ -78,7 +63,7 @@ interface AutocompleteSourceInterface
      * @return int|string
      *   The object identifier
      */
-    public function getItemId($value);
+    public function getId($value);
 
     /**
      * Get item display label
@@ -94,7 +79,7 @@ interface AutocompleteSourceInterface
      * @return string
      *   A textual representation of the object
      */
-    public function getItemLabel($value);
+    public function getLabel($value);
 
     /**
      * Get item additional data
@@ -110,7 +95,7 @@ interface AutocompleteSourceInterface
      * @return []
      *   An array of data related to the object
      */
-    public function getItemExtraData($value);
+    public function getExtraData($value);
 
     /**
      * Render item markup to display within the autocomplete widget, it might
@@ -124,8 +109,10 @@ interface AutocompleteSourceInterface
      *   An object loaded either by the find(), the findAllById() or the
      *   findById() method of this very same object
      *
-     * @return string
-     *   HTML safe output that represent the object
+     * @param string $string Maybe needed for highlight
+     *
+     * @return string HTML safe output that represent the object
+     * HTML safe output that represent the object
      */
-    public function renderItemMarkup($value);
+    public function getMarkup($value, $string='');
 }

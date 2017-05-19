@@ -20,6 +20,7 @@ class TextAutocompleteType extends AbstractType
     /**
      * Default constructor
      *
+     * @param AutocompleteSourceRegistry $sourceRegistry
      * @param RouterInterface $router
      */
     public function __construct(AutocompleteSourceRegistry $sourceRegistry, RouterInterface $router)
@@ -37,6 +38,7 @@ class TextAutocompleteType extends AbstractType
             'compound' => false,
             'source' => null,
             'multiple' => false,
+            'doctrine_manager' => null, // Default entity manager
         ));
 
         $resolver->setAllowedTypes('source', ['string']);
@@ -47,7 +49,7 @@ class TextAutocompleteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $source = $this->sourceRegistry->getSource($options['source']);
+        $source = $this->sourceRegistry->getSource($options['source'], $options['doctrine_manager']);
         $options['source_instance'] = $source;
 
         $builder->addModelTransformer(new TextAutocompleteDataTransformer($source));
@@ -58,14 +60,14 @@ class TextAutocompleteType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $source = $this->sourceRegistry->getSource($options['source']);
+        $source = $this->sourceRegistry->getSource($options['source'], $options['doctrine_manager']);
 
-        $view->vars['route'] = $this->router->generate('mc_autocomplete', ['type' => $this->sourceRegistry->toString($source)]);
+        $view->vars['route'] = $this->router->generate('mc_autocomplete', ['type' => base64_encode($options['source'])]);
         $view->vars['multiple'] = (bool)$options['multiple'];
         $value = $form->getData();
         if ($value) {
-            $view->vars['value_id'] = $source->getItemId($value);
-            $view->vars['value_label'] = $source->getItemLabel($value);
+            $view->vars['value_id'] = $source->getId($value);
+            $view->vars['value_label'] = $source->getLabel($value);
         }
     }
 

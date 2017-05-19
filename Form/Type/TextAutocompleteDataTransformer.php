@@ -34,13 +34,13 @@ class TextAutocompleteDataTransformer implements DataTransformerInterface
             $ret = [];
 
             foreach ($value as $item) {
-                $ret[$this->source->getItemId($item)] = $this->source->getItemLabel($item);
+                $ret[$this->source->getId($item)] = $this->source->getLabel($item);
             }
 
             return $ret;
 
         } else {
-            return $this->source->getItemLabel($value);
+            return $this->source->getLabel($value);
         }
     }
 
@@ -57,7 +57,7 @@ class TextAutocompleteDataTransformer implements DataTransformerInterface
             }
         } else {
             try {
-                return $this->source->findById($value);
+                return $this->source->find($value);
             } catch (\Exception $e) {
                 throw new TransformationFailedException("Item does not exist", null, $e);
             }

@@ -1,53 +1,10 @@
 {% block text_autocomplete_widget -%}
-  {% set real_id = id ~ '-' ~ random() %}
   {% spaceless %}
-    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
-    <select {{ block('widget_attributes') }} data-ac-id="{{ real_id }}">
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control mc-autocomplete')|trim}) %}
+    <select {{ block('widget_attributes') }} data-url="{{ route }}" >
       {% if value_id %}
         <option value="{{ value_id }}" selected="selected">{{ value_label }}</option>
       {% endif %}
     </select>
-    {# And seriously, why not? #}
-    <script type="text/javascript">
-      (function ($) {
-        var id = '[data-ac-id="{{ real_id }}"]';
-        var limit = 30;
-        $(id).select2({
-          ajax: {
-            url: '{{ route }}',
-            allowClear: true,
-            dataType: 'json',
-            delay: 500,
-            data: function (params) {
-              return {
-                query: params.term, // search term
-                page: params.page,
-                limit: 30
-              };
-            },
-            processResults: function (data, params) {
-              // parse the results into the format expected by Select2
-              // since we are using custom formatting functions we do not need to
-              // alter the remote JSON data, except to indicate that infinite
-              // scrolling can be used
-              params.page = params.page || 1;
-              return {
-                results: data.items,
-                pagination: {
-                  more: (params.page * 30) < data.total
-                }
-              };
-            },
-            cache: true
-          },
-          // We already did that in the PHP controller
-          escapeMarkup: function (markup) { return markup; },
-          minimumInputLength: 1,
-          // No need for this, rendered in PHP side
-          // templateResult: function () {},
-          templateSelection: function (data) { return data.title || data.text;}
-        });
-      }(jQuery));
-    </script>
   {% endspaceless %}
 {%- endblock text_autocomplete_widget %}
