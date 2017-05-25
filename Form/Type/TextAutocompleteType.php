@@ -3,7 +3,6 @@
 namespace MakinaCorpus\AutocompleteBundle\Form\Type;
 
 use MakinaCorpus\AutocompleteBundle\Autocomplete\AutocompleteSourceRegistry;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -39,6 +38,7 @@ class TextAutocompleteType extends AbstractType
             'source' => null,
             'multiple' => false,
             'doctrine_manager' => null, // Default entity manager
+            'tags' => false,
         ));
 
         $resolver->setAllowedTypes('source', ['string']);
@@ -52,7 +52,7 @@ class TextAutocompleteType extends AbstractType
         $source = $this->sourceRegistry->getSource($options['source'], $options['doctrine_manager']);
         $options['source_instance'] = $source;
 
-        $builder->addModelTransformer(new TextAutocompleteDataTransformer($source));
+        $builder->addModelTransformer(new TextAutocompleteDataTransformer($source, $options));
     }
 
     /**
@@ -64,6 +64,7 @@ class TextAutocompleteType extends AbstractType
 
         $view->vars['route'] = $this->router->generate('mc_autocomplete', ['type' => base64_encode($options['source'])]);
         $view->vars['multiple'] = (bool)$options['multiple'];
+        $view->vars['tags'] = (bool)$options['tags'];
         $value = $form->getData();
         if ($value) {
             $view->vars['value_id'] = $source->getId($value);

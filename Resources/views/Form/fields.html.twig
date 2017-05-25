@@ -1,9 +1,9 @@
 {% block text_autocomplete_widget -%}
   {% spaceless %}
     {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control mc-autocomplete')|trim}) %}
-    <select {{ block('widget_attributes') }} data-url="{{ route }}" >
-      {% if value_id %}
-        <option value="{{ value_id }}" selected="selected">{{ value_label }}</option>
+    <select {{ block('widget_attributes') }} data-url="{{ route }}" data-tags="{{ tags?1:0 }}">
+      {% if value_id is defined and value_id %}
+        <option value="{{ value_id }}" selected="selected">{{ value }}</option>
       {% endif %}
     </select>
   {% endspaceless %}

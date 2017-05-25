@@ -22,32 +22,29 @@ interface AutocompleteSourceInterface
     /**
      * Find items
      *
-     * @param string $string
-     *   Search string, unescaped user input
-     * @param integer $limit
-     *   Number of items to fetch
-     * @param integer $offset
-     *   Where to start (this is an offset, not a page)
-     *
-     * @return mixed[]
-     *   Array of business class instances this source handles
+     * @param string $string Search string, unescaped user input
+     * @param integer $limit Number of items to fetch
+     * @param integer $offset Where to start (this is an offset, not a page)
+     * @return mixed[] Array of business class instances this source handles
      */
     public function autocomplete($string, $limit = 30, $offset = 0);
 
     /**
-     * Find all items using their identifiers
+     * Find item by their identifiers and do not throw any exceptions
      *
-     * You may throw exception if one or more items are not found, don't care
-     * about the exception type, the widget will handle as much as it can and
-     * provide meaningful exceptions for the fom validation process.
-     *
-     * @param int[]|string[] $idList
-     *   Array of object identifiers
-     *
-     * @return mixed[]
-     *   Array of business class instances this source handles
+     * @param int|string $id Array of object identifiers
+     * @return object|null Instance of founded entity or null
      */
-    public function findAllById($idList);
+    public function findById($id);
+
+    /**
+     * Find all items using their identifiers and do not throw any exceptions
+     *
+     * @param int[]|string[] $idList Array of object identifiers
+     * @param bool $append If true then not founded items will be appended
+     * @return \mixed[] Array of business class instances this source handles
+     */
+    public function findAllById($idList, $append);
 
     /**
      * Get item identifier
@@ -115,4 +112,11 @@ interface AutocompleteSourceInterface
      * HTML safe output that represent the object
      */
     public function getMarkup($value, $string='');
+
+    /**
+     * Create new entity
+     * @param $value
+     * @return mixed
+     */
+    public function newEntity($value);
 }
