@@ -22,47 +22,29 @@ interface AutocompleteSourceInterface
     /**
      * Find items
      *
-     * @param string $string
-     *   Search string, unescaped user input
-     * @param integer $limit
-     *   Number of items to fetch
-     * @param integer $offset
-     *   Where to start (this is an offset, not a page)
-     *
-     * @return mixed[]
-     *   Array of business class instances this source handles
+     * @param string $string Search string, unescaped user input
+     * @param integer $limit Number of items to fetch
+     * @param integer $offset Where to start (this is an offset, not a page)
+     * @return mixed[] Array of business class instances this source handles
      */
-    public function find($string, $limit = 30, $offset = 0);
+    public function autocomplete($string, $limit = 30, $offset = 0);
 
     /**
-     * Find a single item using its identifier
+     * Find item by their identifiers and do not throw any exceptions
      *
-     * You may throw exception if item could not be found, don't care
-     * about the exception type, the widget will handle as much as it can and
-     * provide meaningful exceptions for the fom validation process.
-     *
-     * @param int|string $id
-     *   Object identifier
-     *
-     * @return mixed
-     *   Single business class instance this source handles
+     * @param int|string $id Array of object identifiers
+     * @return object|null Instance of founded entity or null
      */
     public function findById($id);
 
     /**
-     * Find all items using their identifiers
+     * Find all items using their identifiers and do not throw any exceptions
      *
-     * You may throw exception if one or more items are not found, don't care
-     * about the exception type, the widget will handle as much as it can and
-     * provide meaningful exceptions for the fom validation process.
-     *
-     * @param int[]|string[] $idList
-     *   Array of object identifiers
-     *
-     * @return mixed[]
-     *   Array of business class instances this source handles
+     * @param int[]|string[] $idList Array of object identifiers
+     * @param bool $append If true then not founded items will be appended
+     * @return \mixed[] Array of business class instances this source handles
      */
-    public function findAllById($idList);
+    public function findAllById($idList, $append);
 
     /**
      * Get item identifier
@@ -78,7 +60,7 @@ interface AutocompleteSourceInterface
      * @return int|string
      *   The object identifier
      */
-    public function getItemId($value);
+    public function getId($value);
 
     /**
      * Get item display label
@@ -94,7 +76,7 @@ interface AutocompleteSourceInterface
      * @return string
      *   A textual representation of the object
      */
-    public function getItemLabel($value);
+    public function getLabel($value);
 
     /**
      * Get item additional data
@@ -110,7 +92,7 @@ interface AutocompleteSourceInterface
      * @return []
      *   An array of data related to the object
      */
-    public function getItemExtraData($value);
+    public function getExtraData($value);
 
     /**
      * Render item markup to display within the autocomplete widget, it might
@@ -124,8 +106,17 @@ interface AutocompleteSourceInterface
      *   An object loaded either by the find(), the findAllById() or the
      *   findById() method of this very same object
      *
-     * @return string
-     *   HTML safe output that represent the object
+     * @param string $string Maybe needed for highlight
+     *
+     * @return string HTML safe output that represent the object
+     * HTML safe output that represent the object
      */
-    public function renderItemMarkup($value);
+    public function getMarkup($value, $string='');
+
+    /**
+     * Create new entity
+     * @param $value
+     * @return mixed
+     */
+    public function newEntity($value);
 }

@@ -50,27 +50,19 @@ class AutocompleteSourceRegistry
      * Can be a class or an container service identifier
      *
      * @param string $class
+     * @param null $managerName
      *
      * @return AutocompleteSourceInterface
      */
-    public function getSource($class)
+    public function getSource($class, $managerName = null)
     {
-        // Attempt to find item by class
-        if (isset($this->map[$class])) {
-            return $this->container->get($this->map[$class]);
+        $manager = $this->container->get('doctrine')->getManager($managerName);
+        // $metadata = $manager->getClassMetadata($class);
+        /** @var AutocompleteSourceInterface $repository */
+        $repository = $manager->getRepository($class);
+        if(!(method_exists($repository,'autocomplete'))){
+            throw new \InvalidArgumentException(sprintf("Repository of entity %s not implement AutocompleteSourceInterface", $class));
         }
-
-        // Fallback on potential container service
-        $pos = array_search($class, $this->map);
-        if (false !== $pos) {
-            return $this->container->get($class);
-        }
-
-        // It might be a hash
-        if (isset($this->hashes[$class])) {
-            return $this->container->get($this->hashes[$class]);
-        }
-
-        throw new \InvalidArgumentException(sprintf("%s: cannot find class or service", $class));
+        return $repository;
     }
 }
