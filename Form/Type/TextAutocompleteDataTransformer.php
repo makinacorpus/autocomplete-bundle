@@ -53,6 +53,7 @@ class TextAutocompleteDataTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
+        if (empty($value)) return null;
         $append = isset($this->options['tags']) ? $this->options['tags'] : false;
         if (is_array($value)) {
             try {
