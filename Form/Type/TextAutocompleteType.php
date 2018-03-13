@@ -3,29 +3,23 @@
 namespace MakinaCorpus\AutocompleteBundle\Form\Type;
 
 use MakinaCorpus\AutocompleteBundle\Autocomplete\AutocompleteSourceRegistry;
-
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Routing\RouterInterface;
 
 class TextAutocompleteType extends AbstractType
 {
     private $sourceRegistry;
-    private $router;
 
     /**
      * Default constructor
-     *
-     * @param RouterInterface $router
      */
-    public function __construct(AutocompleteSourceRegistry $sourceRegistry, RouterInterface $router)
+    public function __construct(AutocompleteSourceRegistry $sourceRegistry)
     {
         $this->sourceRegistry = $sourceRegistry;
-        $this->router = $router;
     }
 
     /**
@@ -60,7 +54,7 @@ class TextAutocompleteType extends AbstractType
     {
         $source = $this->sourceRegistry->getSource($options['source']);
 
-        $view->vars['route'] = $this->router->generate('mc_autocomplete', ['type' => $this->sourceRegistry->toString($source)]);
+        $view->vars['route'] = $this->sourceRegistry->getUrl($source);
         $view->vars['multiple'] = (bool)$options['multiple'];
         $value = $form->getData();
         if ($value) {

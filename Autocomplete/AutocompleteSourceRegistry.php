@@ -4,6 +4,7 @@ namespace MakinaCorpus\AutocompleteBundle\Autocomplete;
 
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Autocomplete source for the TextAutocomplete widget
@@ -14,15 +15,17 @@ class AutocompleteSourceRegistry
 
     private $map = [];
     private $hashes = [];
+    private $urlGenerator;
 
     /**
      * Default constructor
      *
      * @param ContainerInterface $container
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, UrlGeneratorInterface $urlGenerator)
     {
         $this->setContainer($container);
+        $this->urlGenerator = $urlGenerator;
     }
 
     /**
@@ -43,7 +46,15 @@ class AutocompleteSourceRegistry
      */
     public function toString($source)
     {
-        return md5(get_class($source));
+        return md5(is_string($source) ? $source : get_class($source));
+    }
+
+    /**
+     * Source to URL
+     */
+    public function getUrl($source)
+    {
+        return $this->urlGenerator->generate('mc_autocomplete', ['type' => $this->toString($source)]);
     }
 
     /**
