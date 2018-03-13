@@ -3,7 +3,7 @@
     "type" : "symfony-bundle",
     "description" : "Autocomplete upload widget and form type for Symfony",
     "homepage" : "http://github.com/makinacorpus/autocomplete-bundle",
-    "license" : "GPL-2",
+    "license" : "GPL-2.0-or-later",
     "authors" : [
         {
             "name" : "Pierre Rineau",
