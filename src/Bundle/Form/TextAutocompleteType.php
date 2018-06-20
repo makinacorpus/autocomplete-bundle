@@ -2,7 +2,8 @@
 
 namespace MakinaCorpus\AutocompleteBundle\Form\Type;
 
-use MakinaCorpus\AutocompleteBundle\Autocomplete\AutocompleteSourceRegistry;
+use MakinaCorpus\Autocomplete\Bundle\DependencyInjection\SourceRegistry;
+use MakinaCorpus\Autocomplete\Bundle\Form\Type\TextAutocompleteDataTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -17,7 +18,7 @@ class TextAutocompleteType extends AbstractType
     /**
      * Default constructor
      */
-    public function __construct(AutocompleteSourceRegistry $sourceRegistry)
+    public function __construct(SourceRegistry $sourceRegistry)
     {
         $this->sourceRegistry = $sourceRegistry;
     }

@@ -3,18 +3,19 @@
 namespace MakinaCorpus\Autocomplete\Bundle\DependencyInjection\Compiler;
 
 use MakinaCorpus\Autocomplete\AutocompleteSourceInterface;
+use MakinaCorpus\Autocomplete\Bundle\DependencyInjection\SourceRegistry;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
-class RegisterAutocompleteSourcePass implements CompilerPassInterface
+class RegisterAutocompleteSourceCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        $registryName = 'autocomplete.source_registry';
+        $registryName = SourceRegistry::class;
         $tagName = 'autocomplete.source';
 
         if (!$container->hasDefinition($registryName) && !$container->hasAlias($registryName)) {

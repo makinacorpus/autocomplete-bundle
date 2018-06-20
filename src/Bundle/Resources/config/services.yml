@@ -1,14 +1,17 @@
 services:
 
-    autocomplete.form_type:
-        class: MakinaCorpus\Autocomplete\Bundle\Form\Type\TextAutocompleteType
-        arguments: ["@autocomplete.source_registry"]
+    _defaults:
+        public: false
+
+    MakinaCorpus\Autocomplete\Bundle\Controller\:
+        autowire: true
+        autoconfigure: true
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
+    MakinaCorpus\Autocomplete\Bundle\Form\Type\TextAutocompleteType:
+        autowire: true
         tags: [{name: form.type}]
 
-    autocomplete.source_registry:
-        class: MakinaCorpus\AutocompleteBundle\Autocomplete\SourceRegistry
-        arguments: ["@service_container", "@router"]
-
     MakinaCorpus\Autocomplete\Bundle\DependencyInjection\SourceRegistry:
-        public: true
-        alias: autocomplete.source_registry
+        arguments: ["@service_container", "@router"]

@@ -7,9 +7,6 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-/**
- * Autocomplete source for the TextAutocomplete widget
- */
 class SourceRegistry
 {
     use ContainerAwareTrait;
@@ -55,7 +52,7 @@ class SourceRegistry
      */
     public function getUrl($source): string
     {
-        return $this->urlGenerator->generate('mc_autocomplete', ['type' => $this->toString($source)]);
+        return $this->urlGenerator->generate('makinacorpus_autocomplete.find', ['type' => $this->toString($source)]);
     }
 
     /**
