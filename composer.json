@@ -26,7 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "MakinaCorpus\\AutocompleteBundle\\": ""
+            "MakinaCorpus\\AutocompleteBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MakinaCorpus\\AutocompleteBundle\\Tests\\": "tests/"
         }
     }
 }
