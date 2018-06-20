@@ -1,7 +1,8 @@
 <?php
 
-namespace MakinaCorpus\AutocompleteBundle\Autocomplete;
+namespace MakinaCorpus\Autocomplete\Bundle;
 
+use MakinaCorpus\Autocomplete\AutocompleteSourceTrait;
 use Symfony\Component\Templating\EngineInterface;
 
 /**

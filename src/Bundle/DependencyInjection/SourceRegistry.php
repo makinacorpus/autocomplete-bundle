@@ -1,7 +1,8 @@
 <?php
 
-namespace MakinaCorpus\AutocompleteBundle\Autocomplete;
+namespace MakinaCorpus\Autocomplete\Bundle\DependencyInjection;
 
+use MakinaCorpus\Autocomplete\AutocompleteSourceInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -9,7 +10,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 /**
  * Autocomplete source for the TextAutocomplete widget
  */
-class AutocompleteSourceRegistry
+class SourceRegistry
 {
     use ContainerAwareTrait;
 
@@ -33,7 +34,7 @@ class AutocompleteSourceRegistry
      *
      * @param string[] $map
      */
-    public function registerAll($map)
+    public function registerAll(array $map)
     {
         $this->map = $map;
         foreach ($this->map as $class => $service) {
@@ -44,7 +45,7 @@ class AutocompleteSourceRegistry
     /**
      * Source to string
      */
-    public function toString($source)
+    public function toString($source): string
     {
         return md5(is_string($source) ? $source : get_class($source));
     }
@@ -52,19 +53,15 @@ class AutocompleteSourceRegistry
     /**
      * Source to URL
      */
-    public function getUrl($source)
+    public function getUrl($source): string
     {
         return $this->urlGenerator->generate('mc_autocomplete', ['type' => $this->toString($source)]);
     }
 
     /**
      * Can be a class or an container service identifier
-     *
-     * @param string $class
-     *
-     * @return AutocompleteSourceInterface
      */
-    public function getSource($class)
+    public function getSource(string $class): AutocompleteSourceInterface
     {
         // Attempt to find item by class
         if (isset($this->map[$class])) {

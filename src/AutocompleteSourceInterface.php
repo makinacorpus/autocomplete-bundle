@@ -1,6 +1,8 @@
 <?php
 
-namespace MakinaCorpus\AutocompleteBundle\Autocomplete;
+namespace MakinaCorpus\Autocomplete;
+
+use MakinaCorpus\Calista\Query\Query;
 
 /**
  * Autocomplete source for the TextAutocomplete widget
@@ -22,17 +24,13 @@ interface AutocompleteSourceInterface
     /**
      * Find items
      *
-     * @param string $string
-     *   Search string, unescaped user input
-     * @param integer $limit
-     *   Number of items to fetch
-     * @param integer $offset
-     *   Where to start (this is an offset, not a page)
+     * @param Query $query
+     *   Search query
      *
      * @return mixed[]
      *   Array of business class instances this source handles
      */
-    public function find($string, $limit = 30, $offset = 0);
+    public function find(Query $query): array;
 
     /**
      * Find a single item using its identifier
@@ -47,7 +45,7 @@ interface AutocompleteSourceInterface
      * @return mixed
      *   Single business class instance this source handles
      */
-    public function findById($id);
+    public function findById(string $id);
 
     /**
      * Find all items using their identifiers
@@ -62,7 +60,7 @@ interface AutocompleteSourceInterface
      * @return mixed[]
      *   Array of business class instances this source handles
      */
-    public function findAllById($idList);
+    public function findAllById(array $idList): array;
 
     /**
      * Get item identifier
@@ -78,7 +76,7 @@ interface AutocompleteSourceInterface
      * @return int|string
      *   The object identifier
      */
-    public function getItemId($value);
+    public function getItemId($value): string;
 
     /**
      * Get item display label
@@ -94,7 +92,7 @@ interface AutocompleteSourceInterface
      * @return string
      *   A textual representation of the object
      */
-    public function getItemLabel($value);
+    public function getItemLabel($value): string;
 
     /**
      * Get item additional data
@@ -110,7 +108,7 @@ interface AutocompleteSourceInterface
      * @return []
      *   An array of data related to the object
      */
-    public function getItemExtraData($value);
+    public function getItemExtraData($value): array;
 
     /**
      * Render item markup to display within the autocomplete widget, it might
@@ -127,5 +125,5 @@ interface AutocompleteSourceInterface
      * @return string
      *   HTML safe output that represent the object
      */
-    public function renderItemMarkup($value);
+    public function renderItemMarkup($value): string;
 }

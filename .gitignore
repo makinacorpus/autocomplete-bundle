@@ -2,5 +2,6 @@
 .project
 .settings/
 composer.lock
+coverage
 phpunit.xml
 vendor

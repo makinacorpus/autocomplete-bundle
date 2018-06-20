@@ -1,8 +1,8 @@
 <?php
 
-namespace MakinaCorpus\AutocompleteBundle;
+namespace MakinaCorpus\Autocomplete\Bundle;
 
-use MakinaCorpus\AutocompleteBundle\DependencyInjection\Compiler\RegisterAutocompleteSourcePass;
+use MakinaCorpus\Autocomplete\Bundle\DependencyInjection\Compiler\RegisterAutocompleteSourcePass;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;

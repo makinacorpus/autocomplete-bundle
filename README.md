@@ -1,7 +1,13 @@
-# Autocomplete widget and form type for Symfony
+# Autocomplete API and Symfony widget
 
-**This is a very early release**, this package is far from being complete
-and provide minimal functionnalities as of today.
+This package provides:
+
+ * an almost dependency-free autocomplete source API, with a generic controller
+   that should be suitable for most frameworks,
+
+ * a Symfony bundle that brings a form widget, source registration, and the
+   associated controller for autocompleting things into forms.
+
 
 # Installation
 

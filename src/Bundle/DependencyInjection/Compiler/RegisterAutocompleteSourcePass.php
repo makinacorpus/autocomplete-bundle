@@ -1,8 +1,8 @@
 <?php
 
-namespace MakinaCorpus\AutocompleteBundle\DependencyInjection\Compiler;
+namespace MakinaCorpus\Autocomplete\Bundle\DependencyInjection\Compiler;
 
-use MakinaCorpus\AutocompleteBundle\Autocomplete\AutocompleteSourceInterface;
+use MakinaCorpus\Autocomplete\AutocompleteSourceInterface;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

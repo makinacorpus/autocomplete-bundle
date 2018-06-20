@@ -1,6 +1,6 @@
 <?php
 
-namespace MakinaCorpus\AutocompleteBundle\Autocomplete;
+namespace MakinaCorpus\Autocomplete;
 
 /**
  * Base implementation for lazzy people
@@ -10,7 +10,7 @@ trait AutocompleteSourceTrait /* implemetns AutocompleteSourceInterface */
     /**
      * {@inheritdoc}
      */
-    public function findById($id)
+    public function findById(string $id)
     {
         $items = $this->findAllById([$id]);
 
@@ -24,7 +24,7 @@ trait AutocompleteSourceTrait /* implemetns AutocompleteSourceInterface */
     /**
      * {@inheritdoc}
      */
-    public function getItemLabel($value)
+    public function getItemLabel($value): string
     {
         return $this->getItemId($value);
     }
@@ -32,7 +32,7 @@ trait AutocompleteSourceTrait /* implemetns AutocompleteSourceInterface */
     /**
      * {@inheritdoc}
      */
-    public function getItemExtraData($value)
+    public function getItemExtraData($value): array
     {
         return [];
     }
@@ -40,7 +40,7 @@ trait AutocompleteSourceTrait /* implemetns AutocompleteSourceInterface */
     /**
      * {@inheritdoc}
      */
-    public function renderItemMarkup($value)
+    public function renderItemMarkup($value): string
     {
         return $this->getItemLabel($value);
     }

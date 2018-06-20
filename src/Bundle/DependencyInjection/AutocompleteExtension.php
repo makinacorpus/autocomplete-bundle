@@ -1,6 +1,6 @@
 <?php
 
-namespace MakinaCorpus\AutocompleteBundle\DependencyInjection;
+namespace MakinaCorpus\Autocomplete\Bundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

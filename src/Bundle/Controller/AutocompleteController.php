@@ -1,6 +1,6 @@
 <?php
 
-namespace MakinaCorpus\AutocompleteBundle\Controller;
+namespace MakinaCorpus\Autocomplete\Bundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;

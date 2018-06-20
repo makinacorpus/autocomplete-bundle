@@ -1,9 +1,8 @@
 <?php
 
-namespace MakinaCorpus\AutocompleteBundle\Form\Type;
+namespace MakinaCorpus\Autocomplete\Bundle\Form\Type;
 
-use MakinaCorpus\AutocompleteBundle\Autocomplete\AutocompleteSourceInterface;
-
+use MakinaCorpus\Autocomplete\AutocompleteSourceInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
