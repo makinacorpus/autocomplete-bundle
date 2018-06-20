@@ -12,6 +12,6 @@ class AutocompleteController extends Controller
 {
     public function find(SourceRegistry $registry, Request $request, $type): Response
     {
-        return (new BaseController())->findJson($request, $registry->getSource($type));
+        return (new BaseController('query', 'limit', 'page'))->findJson($request, $registry->getSource($type));
     }
 }
