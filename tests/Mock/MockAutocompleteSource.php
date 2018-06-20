@@ -19,6 +19,18 @@ class MockAutocompleteSource implements AutocompleteSourceInterface
 
     public function find(Query $query): array
     {
+        if ($query->getRawSearchString() === 'some') {
+            return \array_slice(
+                \array_map(
+                    function ($index) {
+                        return new MockItem($index, "some".$index);
+                    },
+                    \range(1, 100)
+                ),
+                $query->getOffset(),
+                $query->getLimit()
+            );
+        }
         return [];
     }
 
