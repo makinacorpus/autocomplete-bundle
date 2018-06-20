@@ -3,10 +3,9 @@
 namespace MakinaCorpus\Autocomplete\Bundle\DependencyInjection\Compiler;
 
 use MakinaCorpus\Autocomplete\AutocompleteSourceInterface;
-
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 class RegisterAutocompleteSourcePass implements CompilerPassInterface
 {
@@ -19,7 +18,9 @@ class RegisterAutocompleteSourcePass implements CompilerPassInterface
         $tagName = 'autocomplete.source';
 
         if (!$container->hasDefinition($registryName) && !$container->hasAlias($registryName)) {
+            // @codeCoverageIgnoreStart
             return;
+            // @codeCoverageIgnoreEnd
         }
         $definition = $container->findDefinition($registryName);
 
@@ -29,10 +30,14 @@ class RegisterAutocompleteSourcePass implements CompilerPassInterface
             $def = $container->getDefinition($id);
 
             if (!$def->isPublic()) {
+                // @codeCoverageIgnoreStart
                 throw new \InvalidArgumentException(sprintf('The service "%s" must be public as sources are lazy-loaded.', $id));
+                // @codeCoverageIgnoreEnd
             }
             if ($def->isAbstract()) {
+                // @codeCoverageIgnoreStart
                 throw new \InvalidArgumentException(sprintf('The service "%s" must not be abstract.', $id));
+                // @codeCoverageIgnoreEnd
             }
 
             // We must assume that the class value has been correctly filled, even if the service is created by a factory

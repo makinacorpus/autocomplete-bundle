@@ -39,7 +39,7 @@ trait TemplateAutocompleteSourceTrait /* implements AutocompleteSourceInterface 
      *
      * @param string $name
      */
-    final public function setTemplateName($name)
+    final public function setTemplateName(string $name)
     {
         $this->templateName = $name;
     }
@@ -51,7 +51,7 @@ trait TemplateAutocompleteSourceTrait /* implements AutocompleteSourceInterface 
      *
      * @return string
      */
-    protected function getTemplateName()
+    protected function getTemplateName(): string
     {
         if (!$this->templateName) {
             throw new \LogicException("You must set a template name");
@@ -63,7 +63,7 @@ trait TemplateAutocompleteSourceTrait /* implements AutocompleteSourceInterface 
     /**
      * {@inheritdoc}
      */
-    public function renderItemMarkup($value)
+    public function renderItemMarkup($value): string
     {
         return $this->templateEngine->render($this->getTemplateName(), ['value' => $value]);
     }
