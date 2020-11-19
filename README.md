@@ -8,6 +8,19 @@ This package provides:
  * a Symfony bundle that brings a form widget, source registration, and the
    associated controller for autocompleting things into forms.
 
+# Upgrading to 2.x
+
+You have two fixes to make:
+
+ - First one is that the `AutocompleteSourceInterface::find()` method query
+   argument typing changed, you must adapt your sources.
+
+ - Second is that we now support more libraries than only `select2`, so instead
+   of including `AutocompleteBundle:Form:fields.html.twig` you must chose
+   either one of `fields-select2.html.twig` or `fields-autocompleter.html.twig`.
+
+ - Template engine based rendering has been dropped, it's up to you to
+   implement it properly in your sources.
 
 # Installation
 
@@ -15,11 +28,15 @@ This package provides:
 composer require makinacorpus/autocomplete-bundle
 ```
 
-**This autocomplete widget works with the [select2](https://select2.github.io)**
-**library, it is your responsability to ensure the javascript is correctly loaded**
-**for it to work.**
 
-**You also need jQuery installed** (sorry, this might change later).
+
+**This autocomplete widget needs a third party library to be registered**
+**globally in your JavaScript code**:
+
+ - [select2](https://select2.github.io) library,
+ - [autocompleter](https://github.com/kraaden/autocomplete) library.
+
+If you use `select2` you also need `jQuery` to be installed (any version).
 
 Register the routing.yml file in your ``app/routing.yml`` file:
 
@@ -35,9 +52,13 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: false
     form_themes:
-        # ...
-        - "AutocompleteBundle:Form:fields.html.twig"
+        # For select2 based widget:
+        - "AutocompleteBundle:Form:fields-select2.html.twig"
+        # For autocompeter based widget:
+        - "AutocompleteBundle:Form:fields-autcompleter.html.twig"
 ```
+
+**Beware to register only one file among the list.**
 
 And it should probably work.
 

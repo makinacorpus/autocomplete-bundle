@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MakinaCorpus\Autocomplete\Tests\Bundle;
 
-use MakinaCorpus\Autocomplete\Bundle\Controller\AutocompleteController;
+use MakinaCorpus\Autocomplete\AutocompleteController;
 use MakinaCorpus\Autocomplete\Bundle\DependencyInjection\SourceRegistry;
 use MakinaCorpus\Autocomplete\Tests\Mock\MockAutocompleteSource;
 use MakinaCorpus\Autocomplete\Tests\Mock\MockUrlGenerator;
@@ -11,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpFoundation\Request;
 
-class ControllerTest extends TestCase
+final class ControllerTest extends TestCase
 {
     public function testFindMethod()
     {

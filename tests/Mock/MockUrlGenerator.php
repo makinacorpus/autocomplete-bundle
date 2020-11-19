@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MakinaCorpus\Autocomplete\Tests\Mock;
 
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class MockUrlGenerator implements UrlGeneratorInterface
+final class MockUrlGenerator implements UrlGeneratorInterface
 {
     private $context;
 

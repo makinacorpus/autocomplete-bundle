@@ -1,26 +1,27 @@
 <?php
 
-namespace MakinaCorpus\AutocompleteBundle\Form\Type;
+declare (strict_types=1);
+
+namespace MakinaCorpus\Autocomplete\Bundle\Form\Type;
 
 use MakinaCorpus\Autocomplete\Bundle\DependencyInjection\SourceRegistry;
-use MakinaCorpus\Autocomplete\Bundle\Form\Type\TextAutocompleteDataTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class TextAutocompleteType extends AbstractType
 {
-    private $sourceRegistry;
+    private SourceRegistry $sourceRegistry;
+    private UrlGeneratorInterface $urlGenerator;
 
-    /**
-     * Default constructor
-     */
-    public function __construct(SourceRegistry $sourceRegistry)
+    public function __construct(SourceRegistry $sourceRegistry, UrlGeneratorInterface $urlGenerator)
     {
         $this->sourceRegistry = $sourceRegistry;
+        $this->urlGenerator = $urlGenerator;
     }
 
     /**
@@ -28,12 +29,13 @@ class TextAutocompleteType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'compound' => false,
             'source' => null,
-            'multiple' => false,
-        ));
+        ]);
 
+        // Source is the target item class name, which was used for autocomplete
+        // type registration.
         $resolver->setAllowedTypes('source', ['string']);
     }
 
@@ -44,8 +46,7 @@ class TextAutocompleteType extends AbstractType
     {
         $source = $this->sourceRegistry->getSource($options['source']);
         $options['source_instance'] = $source;
-
-        $builder->addModelTransformer(new TextAutocompleteDataTransformer($source));
+        $builder->addModelTransformer(new AutocompleteDataTransformer($source));
     }
 
     /**
@@ -54,9 +55,7 @@ class TextAutocompleteType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $source = $this->sourceRegistry->getSource($options['source']);
-
-        $view->vars['route'] = $this->sourceRegistry->getUrl($source);
-        $view->vars['multiple'] = (bool)$options['multiple'];
+        $view->vars['route'] = $this->urlGenerator->generate('makinacorpus_autocomplete_find', ['type' => \md5($options['source'])]);
         $value = $form->getData();
         if ($value) {
             $view->vars['value_id'] = $source->getItemId($value);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MakinaCorpus\Autocomplete\Tests\Unit;
 
 use MakinaCorpus\Autocomplete\AutocompleteController;
@@ -7,7 +9,7 @@ use MakinaCorpus\Autocomplete\Tests\Mock\MockAutocompleteSource;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-class AutocompleteControllerTest extends TestCase
+final class AutocompleteControllerTest extends TestCase
 {
     public function testAll()
     {

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MakinaCorpus\Autocomplete\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use MakinaCorpus\Autocomplete\Tests\Mock\MockAutocompleteSource;
 use MakinaCorpus\Autocomplete\Tests\Mock\MockItem;
 
-class AutocompleteSourceTraitTest extends TestCase
+final class AutocompleteSourceTraitTest extends TestCase
 {
     public function testAll()
     {

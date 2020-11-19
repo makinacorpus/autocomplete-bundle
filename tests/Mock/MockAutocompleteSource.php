@@ -1,30 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MakinaCorpus\Autocomplete\Tests\Mock;
 
 use MakinaCorpus\Autocomplete\AutocompleteSourceInterface;
 use MakinaCorpus\Autocomplete\AutocompleteSourceTrait;
-use MakinaCorpus\Calista\Query\Query;
+use MakinaCorpus\Autocomplete\AutocompleteQuery;
 
-class MockAutocompleteSource implements AutocompleteSourceInterface
+final class MockAutocompleteSource implements AutocompleteSourceInterface
 {
     use AutocompleteSourceTrait;
 
-    private $generate = true;
+    private bool $generate = true;
 
     public function toggleGeneration(bool $toggle)
     {
         $this->generate = $toggle;
     }
 
-    public function find(Query $query): array
+    public function find(AutocompleteQuery $query): array
     {
-        if ($query->getRawSearchString() === 'some') {
+        if ($query->getSearchString() === 'some') {
             return \array_slice(
                 \array_map(
-                    function ($index) {
-                        return new MockItem($index, "some".$index);
-                    },
+                    fn($index) => new MockItem((string) $index, "some".$index),
                     \range(1, 100)
                 ),
                 $query->getOffset(),
@@ -37,9 +37,7 @@ class MockAutocompleteSource implements AutocompleteSourceInterface
     public function findAllById(array $idList): array
     {
         if ($this->generate) {
-            return \array_map(function ($id) {
-                return new MockItem($id, "Label of $id");
-            }, $idList);
+            return \array_map(fn ($id) => new MockItem($id, "Label of $id"), $idList);
         }
         return [];
     }
@@ -50,6 +48,6 @@ class MockAutocompleteSource implements AutocompleteSourceInterface
             throw new \InvalidArgumentException();
         }
 
-        return (string)$value->id;
+        return (string) $value->id;
     }
 }

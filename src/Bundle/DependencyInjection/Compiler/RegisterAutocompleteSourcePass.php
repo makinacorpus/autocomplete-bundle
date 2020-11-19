@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MakinaCorpus\Autocomplete\Bundle\DependencyInjection\Compiler;
 
 use MakinaCorpus\Autocomplete\AutocompleteSourceInterface;
@@ -8,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
-class RegisterAutocompleteSourceCompilerPass implements CompilerPassInterface
+final class RegisterAutocompleteSourcePass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

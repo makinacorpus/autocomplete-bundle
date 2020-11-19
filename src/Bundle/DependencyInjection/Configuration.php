@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MakinaCorpus\Autocomplete\Bundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -9,15 +11,15 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * @codeCoverageIgnore
  *   As of now, this does nothing.
  */
-class Configuration implements ConfigurationInterface
+final class Configuration implements ConfigurationInterface
 {
     /**
      * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        /* $rootNode = */ $treeBuilder->root('autocomplete');
+        $treeBuilder = new TreeBuilder('autocomplete');
+        /* $rootNode = */ $treeBuilder->getRootNode();
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

@@ -1,26 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MakinaCorpus\Autocomplete;
 
-use MakinaCorpus\Calista\Query\InputDefinition;
-use MakinaCorpus\Calista\Query\Query;
+use MakinaCorpus\Autocomplete\Bundle\DependencyInjection\SourceRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * Default controller implementation
- */
-class AutocompleteController
+final class AutocompleteController
 {
-    private $limitParameter = 'limit';
-    private $pageParameter = 'page';
-    private $searchParameter = 'query';
+    private string $limitParameter = 'limit';
+    private string $pageParameter = 'page';
+    private string $searchParameter = 'query';
 
-    /**
-     * Default constructor
-     */
     public function __construct(string $searchParameter = 'query', $limitParameter = 'limit', $pageParameter = 'page')
     {
         $this->limitParameter = $limitParameter;
@@ -28,55 +23,61 @@ class AutocompleteController
         $this->searchParameter = $searchParameter;
     }
 
-    /**
-     * Create query from request
-     */
-    private function createQuery(Request $request): Query
+    public function find(SourceRegistry $registry, Request $request, $type): Response
     {
-        return (new InputDefinition([
-            'limit_allowed' => true,
-            'limit_default' => 100,
-            'limit_param' => $this->limitParameter,
-            'pager_enable' => true,
-            'pager_param' => $this->pageParameter,
-            'search_enable' => true,
-            'search_param' => $this->searchParameter,
-        ]))->createQueryFromRequest($request);
-    }
-
-    public function findArray(Request $request, AutocompleteSourceInterface $source): array
-    {
-        $query = $this->createQuery($request);
-
-        if (!$query->getRawSearchString()) {
-            throw new NotFoundHttpException();
-        }
-
-        return $source->find($query);
+        return $this->findJson($request, $registry->getSource($type));
     }
 
     public function findJson(Request $request, AutocompleteSourceInterface $source): Response
     {
         $query = $this->createQuery($request);
 
-        if (!$query->getRawSearchString()) {
+        if (!$query->getSearchString()) {
             throw new NotFoundHttpException();
         }
 
         $items = [];
         foreach ($source->find($query) as $value) {
             $items[] = [
-                'id'    => $source->getItemId($value),
+                'id' => $source->getItemId($value),
                 'title' => $source->getItemLabel($value),
-                'text'  => $source->renderItemMarkup($value),
+                'text' => $source->renderItemMarkup($value),
             ] + $source->getItemExtraData($value);
         }
 
         return new JsonResponse([
-            'limit' => (int)$query->getLimit(),
-            'page'  => (int)$query->getPageNumber(),
-            'total' => count($items),
+            'limit' => $query->getLimit(),
+            'page'  => $query->getPage(),
+            'total' => \count($items),
             'items' => $items,
         ]);
+    }
+
+    public function findArray(Request $request, AutocompleteSourceInterface $source): array
+    {
+        $query = $this->createQuery($request);
+
+        if (!$query->getSearchString()) {
+            throw new NotFoundHttpException();
+        }
+
+        return $source->find($query);
+    }
+
+    private function createQuery(Request $request): AutocompleteQuery
+    {
+        return new AutocompleteQuery(
+            \trim((string) $request->get($this->searchParameter)),
+            $this->validateInt((string) $request->get($this->limitParameter), AutocompleteQuery::DEFAULT_LIMIT),
+            $this->validateInt((string) $request->get($this->pageParameter), 1)
+        );
+    }
+
+    private function validateInt(string $parameter, int $default): int
+    {
+        if (!\ctype_digit($parameter)) {
+            return $default;
+        }
+        return \abs((int) $parameter);
     }
 }

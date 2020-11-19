@@ -1,81 +1,61 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MakinaCorpus\Autocomplete\Bundle\DependencyInjection;
 
 use MakinaCorpus\Autocomplete\AutocompleteSourceInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class SourceRegistry
+final class SourceRegistry
 {
     use ContainerAwareTrait;
 
-    private $map = [];
-    private $hashes = [];
-    private $urlGenerator;
+    private array $map = [];
+    private array $hashes = [];
 
-    /**
-     * Default constructor
-     *
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container, UrlGeneratorInterface $urlGenerator)
+    public function __construct(ContainerInterface $container)
     {
         $this->setContainer($container);
-        $this->urlGenerator = $urlGenerator;
     }
 
     /**
-     * Register all sources
+     * Register all sources.
      *
      * @param string[] $map
+     *   Keys are item class (or type) values are service identifiers.
+     *   Each AutocompleteSourceInterface implementation is a service.
      */
     public function registerAll(array $map)
     {
         $this->map = $map;
         foreach ($this->map as $class => $service) {
-            $this->hashes[md5($class)] = $service;
+            $this->hashes[\md5($class)] = $service;
         }
     }
 
     /**
-     * Source to string
-     */
-    public function toString($source): string
-    {
-        return md5(is_string($source) ? $source : get_class($source));
-    }
-
-    /**
-     * Source to URL
-     */
-    public function getUrl($source): string
-    {
-        return $this->urlGenerator->generate('makinacorpus_autocomplete.find', ['type' => $this->toString($source)]);
-    }
-
-    /**
-     * Can be a class or an container service identifier
+     * Can be a class or an container service identifier.
      */
     public function getSource(string $class): AutocompleteSourceInterface
     {
-        // Attempt to find item by class
+        // Attempt to find item by class.
         if (isset($this->map[$class])) {
             return $this->container->get($this->map[$class]);
         }
 
-        // Fallback on potential container service
-        $pos = array_search($class, $this->map);
+        // Fallback on potential container service.
+        $pos = \array_search($class, $this->map);
         if (false !== $pos) {
             return $this->container->get($class);
         }
 
-        // It might be a hash
+        // It might be a hash.
         if (isset($this->hashes[$class])) {
             return $this->container->get($this->hashes[$class]);
         }
 
-        throw new \InvalidArgumentException(sprintf("%s: cannot find class or service", $class));
+        throw new \InvalidArgumentException(\sprintf("Cannot find class or service: %s", $class));
     }
 }

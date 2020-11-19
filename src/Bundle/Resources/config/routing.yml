@@ -1,7 +1,7 @@
 
-makinacorpus_autocomplete.find:
+makinacorpus_autocomplete_find:
     path: autocomplete/{type}
-    controller: MakinaCorpus\Autocomplete\Bundle\Controller\AutcompleteController::find
+    controller: MakinaCorpus\Autocomplete\AutcompleteController::find
     defaults:
         query: ~
         limit: 30

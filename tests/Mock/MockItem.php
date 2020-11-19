@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MakinaCorpus\Autocomplete\Tests\Mock;
 
-class MockItem
+final class MockItem
 {
     public $id;
     public $label;

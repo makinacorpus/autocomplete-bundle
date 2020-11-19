@@ -1,8 +1,8 @@
 <?php
 
-namespace MakinaCorpus\Autocomplete;
+declare(strict_types=1);
 
-use MakinaCorpus\Calista\Query\Query;
+namespace MakinaCorpus\Autocomplete;
 
 /**
  * Autocomplete source for the TextAutocomplete widget
@@ -22,48 +22,48 @@ use MakinaCorpus\Calista\Query\Query;
 interface AutocompleteSourceInterface
 {
     /**
-     * Find items
+     * Find items.
      *
-     * @param Query $query
-     *   Search query
+     * @param AutocompleteQuery $query
+     *   Search query.
      *
      * @return mixed[]
-     *   Array of business class instances this source handles
+     *   Array of business class instances this source handles.
      */
-    public function find(Query $query): array;
+    public function find(AutocompleteQuery $query): array;
 
     /**
-     * Find a single item using its identifier
+     * Find a single item using its identifier.
      *
      * You may throw exception if item could not be found, don't care
      * about the exception type, the widget will handle as much as it can and
      * provide meaningful exceptions for the fom validation process.
      *
      * @param int|string $id
-     *   Object identifier
+     *   Object identifier.
      *
      * @return mixed
-     *   Single business class instance this source handles
+     *   Single business class instance this source handles.
      */
     public function findById(string $id);
 
     /**
-     * Find all items using their identifiers
+     * Find all items using their identifiers.
      *
      * You may throw exception if one or more items are not found, don't care
      * about the exception type, the widget will handle as much as it can and
      * provide meaningful exceptions for the fom validation process.
      *
      * @param int[]|string[] $idList
-     *   Array of object identifiers
+     *   Array of object identifiers.
      *
      * @return mixed[]
-     *   Array of business class instances this source handles
+     *   Array of business class instances this source handles.
      */
     public function findAllById(array $idList): array;
 
     /**
-     * Get item identifier
+     * Get item identifier.
      *
      * You may throw exception in case of any error, don't care
      * about the exception type, the widget will handle as much as it can and
@@ -71,10 +71,10 @@ interface AutocompleteSourceInterface
      *
      * @param mixed $value
      *   An object loaded either by the find(), the findAllById() or the
-     *   findById() method of this very same object
+     *   findById() method of this very same object.
      *
      * @return int|string
-     *   The object identifier
+     *   The object identifier.
      */
     public function getItemId($value): string;
 
@@ -95,7 +95,7 @@ interface AutocompleteSourceInterface
     public function getItemLabel($value): string;
 
     /**
-     * Get item additional data
+     * Get item additional data.
      *
      * You may throw exception in case of any error, don't care
      * about the exception type, the widget will handle as much as it can and
@@ -103,16 +103,16 @@ interface AutocompleteSourceInterface
      *
      * @param mixed $value
      *   An object loaded either by the find(), the findAllById() or the
-     *   findById() method of this very same object
+     *   findById() method of this very same object.
      *
      * @return []
-     *   An array of data related to the object
+     *   An array of data related to the object.
      */
     public function getItemExtraData($value): array;
 
     /**
      * Render item markup to display within the autocomplete widget, it might
-     * advanced HTML rendering
+     * advanced HTML rendering.
      *
      * You may throw exception in case of any error, don't care
      * about the exception type, the widget will handle as much as it can and
@@ -120,10 +120,10 @@ interface AutocompleteSourceInterface
      *
      * @param mixed $value
      *   An object loaded either by the find(), the findAllById() or the
-     *   findById() method of this very same object
+     *   findById() method of this very same object.
      *
      * @return string
-     *   HTML safe output that represent the object
+     *   HTML safe output that represent the object.
      */
     public function renderItemMarkup($value): string;
 }
