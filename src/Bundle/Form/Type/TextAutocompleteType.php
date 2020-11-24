@@ -91,6 +91,7 @@ class TextAutocompleteType extends AbstractType
             'label' => false,
             'required' => $options['required'],
             'attr' => [
+                'autocomplete' => "off", // Disable browser autocomplete.
                 'data-tac-id' => $uniqueId,
                 'data-tag-show-id' => $showIdInLabel ? "true" : "",
                 'data-tac-role' => 'label',

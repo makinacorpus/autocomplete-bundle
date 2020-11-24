@@ -61,13 +61,17 @@ final class AutocompleteDataTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
+        if (null === $value || null === $value['label']) {
+            return null;
+        }
+
         if ($this->allowArbitraryInput) {
             $id = $value['id'] ?? $this->getIdFromLabel($value['label']);
         } else {
             $id = $value['id'];
         }
 
-        if (!$id || empty($value['label'])) {
+        if (!$id) {
             return null;
         }
 
