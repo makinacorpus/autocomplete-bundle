@@ -15,7 +15,6 @@ final class AutocompleteControllerTest extends TestCase
     {
         $controller = new AutocompleteController('search', 'how_many', 'page_number');
         $source = new MockAutocompleteSource();
-        $source->toggleGeneration(false);
 
         $request = new Request([
             'search' => 'bar',

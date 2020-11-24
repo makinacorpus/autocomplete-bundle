@@ -28,13 +28,43 @@ You have two fixes to make:
 composer require makinacorpus/autocomplete-bundle
 ```
 
+# Write JavaScript code
 
+You must implement the JavaScript part yourself, all you have to know is that
+you have two different inputs:
+
+ - a container with the `.tac-container` CSS class, for being more precise in
+   selecting the component,
+ - a `text` type input,
+ - a `hidden` type input.
+ - both will have the `data-tac-id` attribute (which yield the same value for
+   both inputs) and the `data-tac-role` attribute, which respectively yield the
+   `label` and `id` values.
+
+The `text` input also yield the `data-autocomplete-uri` which contains a
+generated URL for querying data (please note that URL can change in time, for
+security or deduplication reasons). In order to query this URL you can use the
+following query parameters:
+
+ - `query` which holds the user input,
+ - `limit` which holds the number of items to fetch,
+ - `page` page number (which starts at `1`).
+
+Once you get results, and the user selects a value, you must set the return
+object `id` property into the `[data-tac-role="id"]` element, and the object
+`label` property into the `[data-tac-role="label"]` element.
+
+Bonus point if you empty the hidden value when the users manually edit the
+text value.
+
+## Use a supported JavaScript library
 
 **This autocomplete widget needs a third party library to be registered**
 **globally in your JavaScript code**:
 
  - [select2](https://select2.github.io) library,
- - [autocompleter](https://github.com/kraaden/autocomplete) library.
+ - [autocompleter](https://github.com/kraaden/autocomplete) library
+   (not implemented yet).
 
 If you use `select2` you also need `jQuery` to be installed (any version).
 
@@ -54,13 +84,9 @@ twig:
     form_themes:
         # For select2 based widget:
         - "AutocompleteBundle:Form:fields-select2.html.twig"
-        # For autocompeter based widget:
-        - "AutocompleteBundle:Form:fields-autcompleter.html.twig"
 ```
 
-**Beware to register only one file among the list.**
-
-And it should probably work.
+**Beware that this method is not supported anymore, it might work, it might not.**
 
 # Usage
 

@@ -53,7 +53,7 @@ final class AutocompleteController
         ]);
     }
 
-    public function findArray(Request $request, AutocompleteSourceInterface $source): array
+    public function findArray(Request $request, AutocompleteSourceInterface $source): iterable
     {
         $query = $this->createQuery($request);
 
@@ -67,9 +67,9 @@ final class AutocompleteController
     private function createQuery(Request $request): AutocompleteQuery
     {
         return new AutocompleteQuery(
-            \trim((string) $request->get($this->searchParameter)),
-            $this->validateInt((string) $request->get($this->limitParameter), AutocompleteQuery::DEFAULT_LIMIT),
-            $this->validateInt((string) $request->get($this->pageParameter), 1)
+            \trim((string) $request->query->get($this->searchParameter)),
+            $this->validateInt((string) $request->query->get($this->limitParameter), AutocompleteQuery::DEFAULT_LIMIT),
+            $this->validateInt((string) $request->query->get($this->pageParameter), 1)
         );
     }
 

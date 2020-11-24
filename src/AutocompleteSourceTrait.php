@@ -12,20 +12,6 @@ trait AutocompleteSourceTrait /* implemetns AutocompleteSourceInterface */
     /**
      * {@inheritdoc}
      */
-    public function findById(string $id)
-    {
-        $items = $this->findAllById([$id]);
-
-        if (!$items) {
-            throw new \InvalidArgumentException(sprintf("object with id %s does not exist", $id));
-        }
-
-        return reset($items);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getItemLabel($value): string
     {
         return $this->getItemId($value);

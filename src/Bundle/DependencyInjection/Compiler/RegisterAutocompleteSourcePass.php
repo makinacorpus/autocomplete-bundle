@@ -7,7 +7,6 @@ namespace MakinaCorpus\Autocomplete\Bundle\DependencyInjection\Compiler;
 use MakinaCorpus\Autocomplete\AutocompleteSourceInterface;
 use MakinaCorpus\Autocomplete\Bundle\DependencyInjection\SourceRegistry;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 final class RegisterAutocompleteSourcePass implements CompilerPassInterface
@@ -53,11 +52,13 @@ final class RegisterAutocompleteSourcePass implements CompilerPassInterface
                 throw new \InvalidArgumentException(sprintf('Service "%s" must implement "%s".', $id, AutocompleteSourceInterface::class));
             }
 
-            if ($refClass->hasMethod('setTemplateEngine')) {
-                $def->addMethodCall('setTemplateEngine', [new Reference('templating')]);
+            $type = null;
+            foreach ($attributes as $attribute) {
+                if (isset($attribute['type'])) {
+                    $type = $attribute['type'];
+                }
             }
-
-            $map[$class] = $id;
+            $map[$type ?? $class] = $id;
         }
 
         if ($map) {

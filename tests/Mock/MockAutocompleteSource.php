@@ -19,7 +19,7 @@ final class MockAutocompleteSource implements AutocompleteSourceInterface
         $this->generate = $toggle;
     }
 
-    public function find(AutocompleteQuery $query): array
+    public function find(AutocompleteQuery $query): iterable
     {
         if ($query->getSearchString() === 'some') {
             return \array_slice(
@@ -34,12 +34,9 @@ final class MockAutocompleteSource implements AutocompleteSourceInterface
         return [];
     }
 
-    public function findAllById(array $idList): array
+    public function findById(string $id)
     {
-        if ($this->generate) {
-            return \array_map(fn ($id) => new MockItem($id, "Label of $id"), $idList);
-        }
-        return [];
+        return new MockItem($id, "some".$id);
     }
 
     public function getItemId($value): string
