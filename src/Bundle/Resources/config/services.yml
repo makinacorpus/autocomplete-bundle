@@ -10,5 +10,9 @@ services:
         autowire: true
         tags: [{name: form.type}]
 
+    MakinaCorpus\Autocomplete\Bundle\Twig\AutocompleteExtension:
+        autowire: true
+        tags: [{name: twig.extension}]
+
     MakinaCorpus\Autocomplete\Bundle\DependencyInjection\SourceRegistry:
         arguments: ["@service_container", "@router"]
